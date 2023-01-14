@@ -1,36 +1,46 @@
 package com.driver.models;
 
-import java.util.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String username;
-    private String password;
-    private String firstname;
-    private String lastname;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
     private List<Blog> blogList;
 
-    public User() {
-    }
 
-    public User(String username, String password, String firstname, String lastname) {
+    public User( String username, String password, String firstname, String lastname) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.blogList=new ArrayList<>();
     }
+
+    public User() {
+    }
+
+    public List<Blog> getBlogList() {
+        return blogList;
+    }
+
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
+    }
+
+    @Column(unique = true)
+    private String username;
+
+    private String password;
+
+    private String firstname;
+
+    private String lastname;
 
     public int getId() {
         return id;
@@ -72,11 +82,5 @@ public class User {
         this.lastname = lastname;
     }
 
-    public List<Blog> getBlogList() {
-        return blogList;
-    }
 
-    public void setBlogList(List<Blog> blogList) {
-        this.blogList = blogList;
-    }
 }

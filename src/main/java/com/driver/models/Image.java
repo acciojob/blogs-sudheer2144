@@ -1,24 +1,20 @@
 package com.driver.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 @Entity
 public class Image {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String description;
+
     private String dimensions;
+
     @ManyToOne
     @JoinColumn
-    //@JsonIgnoreProperties("imageList")
     private Blog blog;
-
-    public Image() {
-    }
 
     public Image(String description, String dimensions) {
         this.description = description;
@@ -49,6 +45,9 @@ public class Image {
         this.dimensions = dimensions;
     }
 
+    public Image() {
+    }
+
     public Blog getBlog() {
         return blog;
     }
@@ -56,4 +55,5 @@ public class Image {
     public void setBlog(Blog blog) {
         this.blog = blog;
     }
+
 }

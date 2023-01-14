@@ -44,6 +44,7 @@ public class BlogService {
         blogList.add(blog);
         user.setBlogList(blogList);
         userRepository1.save(user);
+        blogRepository1.save(blog);
     }
 
     public Blog findBlogById(int blogId){
@@ -53,8 +54,9 @@ public class BlogService {
 
     public void addImage(Integer blogId, String description, String dimensions){
         //add an image to the blog after creating it
-        Image image=new Image(description,dimensions);
         Blog blog=blogRepository1.findById(blogId).get();
+        Image image=imageService1.createAndReturn(blog,description,dimensions);
+        image.setBlog(blog);
         List<Image> imageList=blog.getImageList();
         imageList.add(image);
         blog.setImageList(imageList);
@@ -63,7 +65,7 @@ public class BlogService {
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
-        if(blogRepository1.existsById(blogId)){
+        if(blogRepository1.findById(blogId).get()!=null){
             blogRepository1.deleteById(blogId);
         }
     }
