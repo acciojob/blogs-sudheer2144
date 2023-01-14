@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
