@@ -3,24 +3,20 @@ package com.driver.models;
 import javax.persistence.*;
 
 @Entity
-@Table
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String description;
-
     private String dimensions;
-
-    @ManyToOne
-    @JoinColumn
-    private Blog blog;
-
     public Image(String description, String dimensions) {
         this.description = description;
         this.dimensions = dimensions;
     }
+    @ManyToOne
+    @JoinColumn
+    private Blog blog;
 
     public int getId() {
         return id;

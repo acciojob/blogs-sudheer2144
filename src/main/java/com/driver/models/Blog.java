@@ -1,40 +1,34 @@
 package com.driver.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.driver.models.Image;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
     private String content;
     private Date pubDate;
-
-    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
-    //@JsonIgnoreProperties("blog")
-    private List<Image> imageList;
 
     @ManyToOne
     @JoinColumn
     private User user;
 
-    public Blog(String title, String content, Date pubDate) {
-        this.title = title;
-        this.content = content;
-        this.pubDate = pubDate;
-        this.imageList = new ArrayList<>();
-    }
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    private List<Image> imageList;
 
     public Blog() {
     }
 
+    public Blog( String title, String content, Date pubDate) {
+        this.title = title;
+        this.content = content;
+        this.pubDate = pubDate;
+    }
     public int getId() {
         return id;
     }
@@ -63,16 +57,17 @@ public class Blog {
         return pubDate;
     }
 
-    public void setPubDate(Date pubDate) {
-        this.pubDate = pubDate;
-    }
-
     public List<Image> getImageList() {
         return imageList;
     }
 
     public void setImageList(List<Image> imageList) {
         this.imageList = imageList;
+    }
+
+    public void setPubDate(Date pubdate
+    ) {
+        this.pubDate = pubdate;
     }
 
     public User getUser() {
@@ -82,4 +77,5 @@ public class Blog {
     public void setUser(User user) {
         this.user = user;
     }
+
 }

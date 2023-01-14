@@ -41,6 +41,9 @@ public class BlogService {
         User user=userRepository1.findById(userId).get();
         blog.setUser(user);
         List<Blog> blogList=user.getBlogList();
+        if(blogList==null){
+            blogList=new ArrayList<>();
+        }
         blogList.add(blog);
         user.setBlogList(blogList);
         userRepository1.save(user);
@@ -58,6 +61,9 @@ public class BlogService {
         Image image=imageService1.createAndReturn(blog,description,dimensions);
         image.setBlog(blog);
         List<Image> imageList=blog.getImageList();
+        if(imageList==null){
+            imageList=new ArrayList<>();
+        }
         imageList.add(image);
         blog.setImageList(imageList);
         blogRepository1.save(blog);
