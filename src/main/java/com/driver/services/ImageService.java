@@ -40,13 +40,12 @@ public class ImageService {
         return null;
     }
 
-    public int countImagesInScreen(int id, String screenDimensions) {
+    public int countImagesInScreen(Image image, String screenDimensions) {
         //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
         //In case the image is null, return 0
-        if(imageRepository2.findById(id)==null){
+        if(imageRepository2.findById(image.getId())==null){
             return 0;
         }
-        Image image=imageRepository2.findById(id).get();
         int imgMax=Integer.parseInt(image.getDimensions().split("X")[0]);
         int imgMin=Integer.parseInt(image.getDimensions().split("X")[1]);
         int scrMax=Integer.parseInt(screenDimensions.split("X")[0]);
