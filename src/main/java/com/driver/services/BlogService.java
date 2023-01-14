@@ -24,9 +24,10 @@ public class BlogService {
     @Autowired
     UserRepository userRepository1;
 
-    public List<Blog> showBlogs(){
+    public int showBlogs(){
         //find all blogs
-
+        List<Blog> blogs=blogRepository1.findAll();
+        return blogs.size();
     }
 
     public void createAndReturnBlog(Integer userId, String title, String content) {
@@ -36,17 +37,34 @@ public class BlogService {
 
         //Updating the userInformation and changing its blogs
 
+        Blog blog=new Blog(title,content,new Date());
+        User user=userRepository1.findById(userId).get();
+        blog.setUser(user);
+        List<Blog> blogList=user.getBlogList();
+        blogList.add(blog);
+        user.setBlogList(blogList);
+        userRepository1.save(user);
     }
 
     public Blog findBlogById(int blogId){
         //find a blog
+        return blogRepository1.findById(blogId).get();
     }
 
     public void addImage(Integer blogId, String description, String dimensions){
         //add an image to the blog after creating it
+        Image image=new Image(description,dimensions);
+        Blog blog=blogRepository1.findById(blogId).get();
+        List<Image> imageList=blog.getImageList();
+        imageList.add(image);
+        blog.setImageList(imageList);
+        blogRepository1.save(blog);
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
+        if(blogRepository1.existsById(blogId)){
+            blogRepository1.deleteById(blogId);
+        }
     }
 }

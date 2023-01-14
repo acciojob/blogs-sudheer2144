@@ -13,9 +13,11 @@ import java.util.List;
 @RequestMapping("/blogs")
 public class BlogController {
 
+    @Autowired
+    BlogService blogservice;
     @GetMapping
     public ResponseEntity<Integer> getAllBlogs() {
-        int countOfBlogs = 0;
+        int countOfBlogs = blogservice.showBlogs();
         return new ResponseEntity<>(countOfBlogs, HttpStatus.OK);
     }
 
@@ -24,18 +26,19 @@ public class BlogController {
                                            @RequestParam String title,
                                            @RequestParam String content) {
 
+        blogservice.createAndReturnBlog(userId,title,content);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{blogId}/add-image")
     public ResponseEntity<String> addImage(@PathVariable int blogId, @RequestParam String description, @RequestParam String dimensions) {
-
+            blogservice.addImage(blogId,description,dimensions);
             return new ResponseEntity<>("Added image successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{blogId}")
     public ResponseEntity<Void> deleteBlog(@PathVariable int blogId) {
-
+        blogservice.deleteBlog(blogId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
