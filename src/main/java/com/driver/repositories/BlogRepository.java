@@ -10,4 +10,6 @@ import java.util.ArrayList;
 
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
+
+    void delete(int blogId);
 }

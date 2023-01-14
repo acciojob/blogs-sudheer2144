@@ -24,30 +24,26 @@ public class BlogService {
     @Autowired
     UserRepository userRepository1;
 
-    public int showBlogs(){
+    public List<Blog> showBlogs(){
         //find all blogs
-        List<Blog> blogs=blogRepository1.findAll();
-        return blogs.size();
+        return  blogRepository1.findAll();
+
     }
 
     public void createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
-
+        Blog blog=new Blog(title,content,new Date());
+        blog.setUser(userRepository1.findById(userId).get());
+        User user=userRepository1.findById(userId).get();
+        List<Blog> res=user.getBlogList();
+        res.add(blog);
+        user.setBlogList(res);
+        blogRepository1.save(blog);
+        userRepository1.save(user);
         //updating the blog details
 
         //Updating the userInformation and changing its blogs
 
-        Blog blog=new Blog(title,content,new Date());
-        User user=userRepository1.findById(userId).get();
-        blog.setUser(user);
-        List<Blog> blogList=user.getBlogList();
-        if(blogList==null){
-            blogList=new ArrayList<>();
-        }
-        blogList.add(blog);
-        user.setBlogList(blogList);
-        userRepository1.save(user);
-        blogRepository1.save(blog);
     }
 
     public Blog findBlogById(int blogId){
@@ -61,18 +57,18 @@ public class BlogService {
         Image image=imageService1.createAndReturn(blog,description,dimensions);
         image.setBlog(blog);
         List<Image> imageList=blog.getImageList();
-        if(imageList==null){
-            imageList=new ArrayList<>();
-        }
+        if(imageList==null) imageList=new ArrayList<>();
         imageList.add(image);
         blog.setImageList(imageList);
         blogRepository1.save(blog);
+
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
-        if(blogRepository1.findById(blogId).get()!=null){
-            blogRepository1.deleteById(blogId);
-        }
+        if(blogRepository1.findById(blogId).get()==null) return;
+        blogRepository1.deleteById(blogId);
+
+
     }
 }

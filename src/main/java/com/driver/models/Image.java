@@ -9,14 +9,8 @@ public class Image {
     private int id;
 
     private String description;
+
     private String dimensions;
-    public Image(String description, String dimensions) {
-        this.description = description;
-        this.dimensions = dimensions;
-    }
-    @ManyToOne
-    @JoinColumn
-    private Blog blog;
 
     public int getId() {
         return id;
@@ -53,4 +47,11 @@ public class Image {
         this.blog = blog;
     }
 
+    public Image(String description, String dimensions) {
+        this.description = description;
+        this.dimensions = dimensions;
+    }
+    @ManyToOne
+    @JoinColumn
+    private Blog blog;
 }
