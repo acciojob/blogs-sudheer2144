@@ -63,6 +63,7 @@ public class Blog {
     }
 
     public void setImageList(List<Image> imageList) {
+
         this.imageList = imageList;
     }
 
