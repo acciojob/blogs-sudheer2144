@@ -21,12 +21,12 @@ public class ImageService {
         //create an image based on given parameters and add it to the imageList of given blog
         Image image=new Image(description,dimensions);
         image.setBlog(blog);
-        List<Image> res=blog.getImageList();
-        if(res==null){
-            res=new ArrayList<>();
+        List<Image> imageList=blog.getImageList();
+        if(imageList==null){
+            imageList=new ArrayList<>();
         }
-        res.add(image);
-        blog.setImageList(res);
+        imageList.add(image);
+        blog.setImageList(imageList);
         imageRepository2.save(image);
         blogRepository.save(blog);
         return image;
@@ -45,9 +45,9 @@ public class ImageService {
         //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
         //In case the image is null, return 0
         if (screenDimensions.split("X").length == 2 || Objects.nonNull(image)) {
-            Integer maxLength = Integer.parseInt(screenDimensions.split("X")[0]) / Integer.parseInt(image.getDimensions().split("X")[0]) ;
-            Integer maxBreadth = Integer.parseInt(screenDimensions.split("X")[1]) / Integer.parseInt(image.getDimensions().split("X")[1]);
-            return maxLength * maxBreadth;
+            int len = Integer.parseInt(screenDimensions.split("X")[0]) / Integer.parseInt(image.getDimensions().split("X")[0]) ;
+            int br = Integer.parseInt(screenDimensions.split("X")[1]) / Integer.parseInt(image.getDimensions().split("X")[1]);
+            return len*br;
         }
         return 0;
 
